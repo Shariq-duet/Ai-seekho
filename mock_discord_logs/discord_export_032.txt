@@ -1,8 +1,0 @@
-[20:36] User2780: LF2M for the raid, need a healer and a tank.
-[20:46] User7883: I think the dash mechanic is broken? I dashed away from an enemy in the Neon District and clipped right through a solid wall. https://res-console.cloudinary.com/dfq6ylssz/thumbnails/transform/v1/image/upload/Y19maWxsLGhfMjAwLHdfMjAw/v1/aW1hZ2UxX2JzbDlyNQ==/template_primary
-[20:51] User3413: The weapon balance in this patch is a joke. Assault rifle does zero damage.
-[20:58] User8790: honestly the lag is the real issue. get better internet.
-[21:01] User3649: Who cares about the lore when the ping is this bad? Fix your servers devs!
-[21:07] User1787: The bartender isn't moving at all, just sliding around in a T-pose. Looks hilarious but needs fixing.
-[21:15] User8257: Massive game-breaking issue in the Neon District level. Every time I trigger the high-speed dash near the server room walls, my kinematic body ignores the static collision mesh. https://res-console.cloudinary.com/dfq6ylssz/thumbnails/transform/v1/image/upload/Y19maWxsLGhfMjAwLHdfMjAw/v1/aW1hZ2UxX2JzbDlyNQ==/template_primary
-[21:17] User4916: YES! It's specifically the plasma rifle. Every single time I try to equip it, the whole inventory screen hard crashes to the desktop.https://res-console.cloudinary.com/dfq6ylssz/thumbnails/transform/v1/image/upload/Y19maWxsLGhfMjAwLHdfMjAw/v1/aW1hZ2UyX2dzZnlpdw==/template_primary

@@ -1,9 +1,0 @@
-[08:52] User5822: Massive game-breaking issue in the Neon District level. Every time I trigger the high-speed dash near the server room walls, my kinematic body ignores the static collision mesh. https://res-console.cloudinary.com/dfq6ylssz/thumbnails/transform/v1/image/upload/Y19maWxsLGhfMjAwLHdfMjAw/v1/aW1hZ2UxX2JzbDlyNQ==/template_primary
-[09:01] User4972: The bright red minimap is literally burning my retinas. Please add a dark mode.
-[09:08] User9944: Fast travel auto-save bug is real. Game crashed during the load screen and now my file says 'Data Corrupted'.
-[09:09] User8432: If you sell an Iron Ingot to the Blacksmith and immediately buy it back by spamming the confirm button, it duplicates the item.
-[09:10] User2015: Pls fix the plasma rifle bug. I just lost two hours of progress because I opened my inventory to swap weapons and the game completely froze.https://res-console.cloudinary.com/dfq6ylssz/thumbnails/transform/v1/image/upload/Y19maWxsLGhfMjAwLHdfMjAw/v1/aW1hZ2UyX2dzZnlpdw==/template_primary
-[09:15] User1277: Warning: interacting with obelisks while the auto-save icon is spinning bricks your save file.
-[09:19] User3096: Warning: interacting with obelisks while the auto-save icon is spinning bricks your save file.
-[09:29] User9977: still waiting on that minimap color update...
-[09:37] User8889: FIX THE DASH BUG IN NEON DISTRICT. I just fell through the floor AGAIN near the metro stairs.https://res-console.cloudinary.com/dfq6ylssz/thumbnails/transform/v1/image/upload/Y19maWxsLGhfMjAwLHdfMjAw/v1/aW1hZ2UxX2JzbDlyNQ==/template_primary

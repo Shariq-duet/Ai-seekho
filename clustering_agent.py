@@ -4,8 +4,7 @@ from pydantic import BaseModel, Field
 from google import genai
 from dotenv import load_dotenv
 
-# Re-define LogEntry just for typing if needed, but since we are reading from JSON, 
-# we can just pass the parsed Pydantic objects or dicts. We'll load the JSON and validate.
+# Re-define LogEntry just for typing context
 class LogEntry(BaseModel):
     log_id: str
     timestamp: str
@@ -27,16 +26,18 @@ class ClusteredInsights(BaseModel):
     incidents: list[IncidentReport]
 
 # --- Phase 2: Clustering Function ---
-def cluster_logs(logs_array: list[LogEntry]) -> ClusteredInsights | None:
+# CRITICAL FIX: Renamed to run_clustering and accepts a list of dicts from server.py
+def run_clustering(ingested_data: list[dict]) -> dict:
     print("Agent Observation: Scanning ingested logs for multiple distinct failure patterns...")
     
+    load_dotenv()
     if not os.environ.get("GEMINI_API_KEY"):
         raise ValueError("GEMINI_API_KEY environment variable is missing.")
 
     client = genai.Client()
     
-    # Convert Pydantic objects back to a JSON string for the prompt context
-    logs_json = json.dumps([log.model_dump() for log in logs_array], indent=2)
+    # Convert the incoming list of dictionaries directly to a JSON string for the prompt
+    logs_json = json.dumps(ingested_data, indent=2)
 
     system_instruction = (
         "Analyze the JSON array of logs. Filter out all irrelevant 'noise' (UI color complaints, lore discussions, lag). "
@@ -66,33 +67,11 @@ def cluster_logs(logs_array: list[LogEntry]) -> ClusteredInsights | None:
         for incident in insights.incidents:
             print(f"- {incident.incident_title}")
             
-        return insights
+        # Return as a standard dictionary so server.py can seamlessly pass it to Phase 3
+        return insights.model_dump()
     except Exception as e:
         print(f"Agent Error: Failed to parse clustering response. Details: {e}")
-        return None
+        return {}
 
-if __name__ == "__main__":
-    load_dotenv()
-    base_dir = os.path.dirname(os.path.abspath(__file__))
-    logs_path = os.path.join(base_dir, "ingested_logs.json")
-    
-    if not os.path.exists(logs_path):
-        print(f"Error: {logs_path} not found. Please run the ingestion agent first.")
-    else:
-        with open(logs_path, 'r', encoding='utf-8') as f:
-            logs_data = json.load(f)
-            
-        logs_array = [LogEntry.model_validate(log) for log in logs_data]
-        
-        print("Starting Phase 2: Insight Clustering...")
-        insights = cluster_logs(logs_array)
-        
-        if insights:
-            print("\n--- FINAL CLUSTERED INSIGHTS ---")
-            print(json.dumps(insights.model_dump(), indent=4))
-            
-            # Save the report
-            report_path = os.path.join(base_dir, "incident_report.json")
-            with open(report_path, 'w', encoding='utf-8') as rf:
-                json.dump(insights.model_dump(), rf, indent=4)
-            print(f"\nReport saved to {report_path}")
+# We omit the __main__ block here because Google Cloud Run does not use it. 
+# The server.py file handles all execution now.

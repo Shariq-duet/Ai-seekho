@@ -1,5 +1,6 @@
 import os
 import json
+import time
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
@@ -14,7 +15,6 @@ load_dotenv()
 
 app = FastAPI(title="3-Phase Agentic Workflow API")
 
-# Configure CORS to allow all origins for the frontend
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -25,6 +25,7 @@ app.add_middleware(
 
 @app.post("/analyze-upload")
 async def analyze_upload_endpoint(file: UploadFile = File(...)):
+    """Live Endpoint: Reads a single uploaded .txt file from the UI."""
     print("\n--- API: Received Upload. Triggering Phase 1 (Ingestion) ---")
     if not file.filename.endswith(".txt"):
         raise HTTPException(status_code=400, detail="Only .txt files are supported")
@@ -32,6 +33,8 @@ async def analyze_upload_endpoint(file: UploadFile = File(...)):
     content = await file.read()
     injected_text = content.decode("utf-8")
     
+    # Note: If the UI uploads a massive file, this might still hit the output token limit.
+    # Advise the UI team to upload sample files, not 50MB database dumps.
     logs_list = run_ingestion(injected_text)
     if not logs_list:
         raise HTTPException(status_code=500, detail="Phase 1 Ingestion failed to parse logs.")
@@ -47,45 +50,58 @@ async def analyze_upload_endpoint(file: UploadFile = File(...)):
     if not plan:
         raise HTTPException(status_code=500, detail="Phase 3 Plan generation failed.")
         
-    print("API Observation: ExecutionPlan generated. Returning payload to frontend for approval.")
+    print("API Observation: ExecutionPlan generated. Returning payload to frontend.")
     return plan.model_dump()
 
 @app.post("/analyze-local")
 async def analyze_local_endpoint():
-    print("\n--- API: Received Local Request. Triggering Phase 1 (Ingestion) ---")
-    base_dir = os.path.dirname(os.path.abspath(__file__))
-    data_dir = os.path.join(base_dir, "mock_discord_logs")
+    """Fallback Endpoint: Reads from the local mock_discord_logs folder using Chunking."""
+    print("\n--- API: Triggering Phase 1 (Sequential Local Ingestion) ---")
     
-    if not os.path.exists(data_dir) or not os.path.isdir(data_dir):
-        raise HTTPException(status_code=404, detail="mock_discord_logs directory not found.")
+    log_dir = "mock_discord_logs"
+    if not os.path.exists(log_dir):
+        raise HTTPException(status_code=404, detail="Local log directory not found.")
         
-    files = [f for f in os.listdir(data_dir) if f.endswith('.txt')]
+    files = [f for f in os.listdir(log_dir) if f.endswith(".txt")]
     if not files:
-        raise HTTPException(status_code=404, detail="No .txt files found in mock_discord_logs directory.")
-        
-    combined_raw_text = ""
+         raise HTTPException(status_code=400, detail="Local log directory is empty.")
+
+    master_logs_list = []
+
+    # Process each file individually to strictly enforce token output limits
     for filename in files:
-        filepath = os.path.join(data_dir, filename)
-        with open(filepath, 'r', encoding='utf-8') as f:
-            combined_raw_text += f"\n--- File: {filename} ---\n"
-            combined_raw_text += f.read()
+        filepath = os.path.join(log_dir, filename)
+        with open(filepath, "r", encoding="utf-8") as f:
+            file_text = f.read()
             
-    logs_list = run_ingestion(combined_raw_text)
-    if not logs_list:
-        raise HTTPException(status_code=500, detail="Phase 1 Ingestion failed to parse logs.")
+        print(f"API Action: Sending {filename} to Ingestion Agent...")
+        file_logs = run_ingestion(file_text)
         
-    print("\n--- API: Triggering Phase 2 (Clustering) ---")
-    insights_dict = run_clustering(logs_list)
+        if file_logs:
+            master_logs_list.extend(file_logs)
+            print(f"API Observation: Added {len(file_logs)} logs to the master list.")
+        else:
+            print(f"API Warning: Failed to parse {filename} or file was empty.")
+            
+        # Mandatory delay to prevent rate-limiting during the loop
+        time.sleep(3)
+            
+    if not master_logs_list:
+        raise HTTPException(status_code=500, detail="Phase 1 Ingestion completely failed to parse any local logs.")
+        
+    print(f"\nAPI Observation: Phase 1 Complete. {len(master_logs_list)} total logs extracted.")
+    print("--- API: Triggering Phase 2 (Clustering) ---")
+    
+    insights_dict = run_clustering(master_logs_list)
     if not insights_dict or "incidents" not in insights_dict:
-        raise HTTPException(status_code=500, detail="Phase 2 Clustering failed to generate insights.")
+        raise HTTPException(status_code=500, detail="Phase 2 Clustering failed.")
         
     print("\n--- API: Triggering Phase 3 (Generation) ---")
     plan = generate_plan(insights_dict)
-    
     if not plan:
         raise HTTPException(status_code=500, detail="Phase 3 Plan generation failed.")
         
-    print("API Observation: ExecutionPlan generated. Returning payload to frontend for approval.")
+    print("API Observation: ExecutionPlan generated from local data.")
     return plan.model_dump()
 
 @app.post("/execute")
@@ -93,8 +109,3 @@ async def execute_endpoint(plan: ExecutionPlan):
     print("\n--- API: Human Approved! Triggering Phase 3 (Webhooks) ---")
     execute_webhooks(plan)
     return {"status": "success", "message": "Webhooks executed successfully."}
-
-if __name__ == "__main__":
-    import uvicorn
-    # Run server locally
-    uvicorn.run(app, host="0.0.0.0", port=8000)
