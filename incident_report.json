@@ -1,0 +1,56 @@
+{
+    "incidents": [
+        {
+            "incident_title": "Save File Corruption and Fast Travel Issues",
+            "affected_system": "Save System, Fast Travel Mechanic",
+            "aggregated_description": "Players are experiencing critical save file corruption and loss of progress when interacting with fast travel points or obelisks, especially when the auto-save icon is active. This often leads to game crashes during load screens or complete deletion of save data.",
+            "report_frequency": 45,
+            "evidence_urls": []
+        },
+        {
+            "incident_title": "Infinite Money / Ingot Duplication Glitch",
+            "affected_system": "Economy, Blacksmith Vendor, Item Duplication",
+            "aggregated_description": "An exploit exists at the Blacksmith vendor where selling and immediately buying back an Iron Ingot duplicates the item, leading to an infinite money glitch. This is being widely abused and is ruining the in-game economy.",
+            "report_frequency": 52,
+            "evidence_urls": []
+        },
+        {
+            "incident_title": "Dash Collision and Clipping Issues in Neon District",
+            "affected_system": "Player Movement (Dash), Collision Detection, Neon District Level",
+            "aggregated_description": "The high-speed dash mechanic in the Neon District level is causing players to clip through static collision meshes, solid walls, or fall through the floor, particularly near server room walls and metro stairs. This results in game-breaking out-of-bounds situations.",
+            "report_frequency": 60,
+            "evidence_urls": [
+                "https://mock-storage.xyz/clips/dash_collision_fail.mp4",
+                "https://mock-storage.xyz/clips/dash_out_of_bounds.mp4"
+            ]
+        },
+        {
+            "incident_title": "Inventory Freeze and Plasma Rifle Crash",
+            "affected_system": "Inventory System, Plasma Rifle, Game Stability",
+            "aggregated_description": "The game is frequently freezing or hard crashing to the desktop when players open their inventory, specifically when attempting to equip or interact with the Plasma Rifle. This leads to significant loss of progress.",
+            "report_frequency": 54,
+            "evidence_urls": []
+        },
+        {
+            "incident_title": "Cyber-Dragon Boss Audio Desynchronization",
+            "affected_system": "Audio System, Cyber-Dragon Boss Fight (Chapter 4)",
+            "aggregated_description": "During the Cyber-Dragon boss fight (Chapter 4), audio cues for attacks are entirely desynchronized from their animations, with roars occurring several seconds before the visual action. This makes the fight unplayable.",
+            "report_frequency": 58,
+            "evidence_urls": []
+        },
+        {
+            "incident_title": "NPC T-pose and Animation Glitches",
+            "affected_system": "NPC Animation, Character Models, Main City/Tavern",
+            "aggregated_description": "Various NPCs, including guards in the main city and the bartender in the tavern, are stuck in a T-pose. They may slide around instead of walking or have frozen skeletons while still being able to talk, indicating animation system failures.",
+            "report_frequency": 55,
+            "evidence_urls": []
+        },
+        {
+            "incident_title": "Resolution Slider Greyed Out in Settings",
+            "affected_system": "Graphics Settings, User Interface",
+            "aggregated_description": "Players are unable to change their game resolution because the corresponding slider in the graphics settings menu is consistently greyed out and unresponsive.",
+            "report_frequency": 79,
+            "evidence_urls": []
+        }
+    ]
+}

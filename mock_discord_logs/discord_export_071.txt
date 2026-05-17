@@ -1,0 +1,9 @@
+[00:10] User9646: still waiting on that minimap color update...
+[00:19] User8453: Cyber-dragon fight is unplayable because the audio cues for his attacks are entirely desynced.
+[00:29] User3243: I think the dash mechanic is broken? I dashed away from an enemy in the Neon District and clipped right through a solid wall. https://res-console.cloudinary.com/dfq6ylssz/thumbnails/transform/v1/image/upload/Y19maWxsLGhfMjAwLHdfMjAw/v1/aW1hZ2UxX2JzbDlyNQ==/template_primary
+[00:33] User5546: Game tried to auto-save while I was interacting with the fast travel point and my entire save is gone. 40 hours wasted.
+[00:43] User9014: Massive game-breaking issue in the Neon District level. Every time I trigger the high-speed dash near the server room walls, my kinematic body ignores the static collision mesh. https://res-console.cloudinary.com/dfq6ylssz/thumbnails/transform/v1/image/upload/Y19maWxsLGhfMjAwLHdfMjAw/v1/aW1hZ2UxX2JzbDlyNQ==/template_primary
+[00:51] User5636: honestly the lag is the real issue. get better internet.
+[00:55] User3647: The bright red minimap is literally burning my retinas. Please add a dark mode.
+[01:02] User8938: I think the dash mechanic is broken? I dashed away from an enemy in the Neon District and clipped right through a solid wall. https://res-console.cloudinary.com/dfq6ylssz/thumbnails/transform/v1/image/upload/Y19maWxsLGhfMjAwLHdfMjAw/v1/aW1hZ2UxX2JzbDlyNQ==/template_primary
+[01:06] User1335: URGENT: There is an infinite money glitch at the Blacksmith right now.
